@@ -2,6 +2,7 @@ import os
 import re
 import pickle
 import streamlit as st
+import gdown
 
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -9,8 +10,16 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 # ==========================================================
 # CONFIGURATION
 # ==========================================================
+MODEL_URL = "https://drive.google.com/uc?export=download&id=1c2AClk2_sNoooyr1P9AKkuFvyfzr5tdh"
 
-MODEL = "sentiment_model.keras"
+MODEL_PATH = "sentiment_model.keras"
+if not os.path.exists(MODEL_PATH):
+    with st.spinner("Downloading AI Model... (only first time)"):
+        gdown.download(
+            MODEL_URL,
+            MODEL_PATH,
+            quiet=False
+        )
 TOKENIZER = "tokenizer.pkl"
 
 MAX_LEN = 100
@@ -56,9 +65,7 @@ st.markdown("""
 # CHECK FILES
 # ==========================================================
 
-if not os.path.exists(MODEL):
-    st.error("Model not found. Run train.py first.")
-    st.stop()
+
 
 if not os.path.exists(TOKENIZER):
     st.error("Tokenizer not found. Run train.py first.")
@@ -71,7 +78,7 @@ if not os.path.exists(TOKENIZER):
 @st.cache_resource
 def load_artifacts():
 
-    model = load_model(MODEL)
+    model = load_model(MODEL_PATH)
 
     with open(TOKENIZER,"rb") as f:
         tokenizer = pickle.load(f)
