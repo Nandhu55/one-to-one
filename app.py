@@ -29,10 +29,9 @@ if not os.path.exists(MODEL_PATH):
     with st.spinner("Downloading AI Model... Please wait..."):
         try:
             gdown.download(
-                url=MODEL_URL,
-                output=MODEL_PATH,
-                quiet=False,
-                fuzzy=True
+                MODEL_URL,
+                MODEL_PATH,
+                quiet=False
             )
         except Exception as e:
             st.error(f"Failed to download the model: {e}")
