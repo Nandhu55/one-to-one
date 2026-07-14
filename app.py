@@ -8,24 +8,7 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 # ==========================================================
-# CONFIGURATION
-# ==========================================================
-MODEL_URL = "https://drive.google.com/uc?export=download&id=1c2AClk2_sNoooyr1P9AKkuFvyfzr5tdh"
-
-MODEL_PATH = "sentiment_model.keras"
-if not os.path.exists(MODEL_PATH):
-    with st.spinner("Downloading AI Model... (only first time)"):
-        gdown.download(
-            MODEL_URL,
-            MODEL_PATH,
-            quiet=False
-        )
-TOKENIZER = "tokenizer.pkl"
-
-MAX_LEN = 100
-
-# ==========================================================
-# PAGE CONFIG
+# PAGE CONFIG (MUST BE FIRST STREAMLIT COMMAND)
 # ==========================================================
 
 st.set_page_config(
@@ -34,6 +17,25 @@ st.set_page_config(
     layout="wide"
 )
 
+# ==========================================================
+# CONFIGURATION
+# ==========================================================
+
+MODEL_URL = "https://drive.google.com/uc?export=download&id=1c2AClk2_sNoooyr1P9AKkuFvyfzr5tdh"
+
+MODEL_PATH = "sentiment_model.keras"
+
+if not os.path.exists(MODEL_PATH):
+    with st.spinner("Downloading AI Model... Please wait..."):
+        gdown.download(
+            url=MODEL_URL,
+            output=MODEL_PATH,
+            quiet=False,
+            fuzzy=True
+        )
+
+TOKENIZER = "tokenizer.pkl"
+MAX_LEN = 100
 # ==========================================================
 # CUSTOM CSS
 # ==========================================================
