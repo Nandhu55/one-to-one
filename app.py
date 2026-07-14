@@ -27,12 +27,16 @@ MODEL_PATH = "sentiment_model.keras"
 
 if not os.path.exists(MODEL_PATH):
     with st.spinner("Downloading AI Model... Please wait..."):
-        gdown.download(
-            url=MODEL_URL,
-            output=MODEL_PATH,
-            quiet=False,
-            fuzzy=True
-        )
+        try:
+            gdown.download(
+                url=MODEL_URL,
+                output=MODEL_PATH,
+                quiet=False,
+                fuzzy=True
+            )
+        except Exception as e:
+            st.error(f"Failed to download the model: {e}")
+            st.stop()
 
 TOKENIZER = "tokenizer.pkl"
 MAX_LEN = 100
